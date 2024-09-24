@@ -106,7 +106,7 @@ disp('done!')
 toc
 if CREATE_FUNCTIONS 
     disp(' Creating function ...')
-    matlabFunction(T_0_i,'file','functions\get_T_0_i', 'Vars', {q, par, par_nl});
+    matlabFunction(T_0_i,'file','functions\get_T_0_i', 'Vars', {q, par_nl});
 	disp('done!')
     toc
 end
@@ -232,9 +232,9 @@ disp('done!')
 disp('Computing Gravity terms ...')
 tic
 G = sym(zeros(N_joints,1));
-grav = [0 0 -g]';
+grav = [0 0 g]';
 for index = 1 : N_joints
-    G = G + J_cm_i(:,:,index)'*[grav*masses(index);zeros(3,1)];
+    G = G - J_cm_i(:,:,index)'*[grav*masses(index);zeros(3,1)];
 end
 G = simplify(G);
 G = combine(G,'sincos');
@@ -396,9 +396,9 @@ disp('done!')
 disp('Computing linear Gravity terms ...')
 tic
 Gp = sym(zeros(N_joints,1));
-grav = [0 0 -g]';
+grav = [0 0 g]';
 for index = 1 : N_joints
-    Gp = Gp + J_cm_i_p(:,:,index)'*[grav*masses_lin(index);zeros(3,1)];
+    Gp = Gp - J_cm_i_p(:,:,index)'*[grav*masses_lin(index);zeros(3,1)];
 end
 Gp = simplify(Gp);
 Gp = combine(Gp,'sincos');
